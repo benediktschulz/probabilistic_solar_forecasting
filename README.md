@@ -1,33 +1,33 @@
 # Probabilistic Solar Forecasting
 
-This repository provides R-code accompanying the paper
+This repository provides R code accompanying the paper
 
 > Gneiting, T., Lerch, S. and Schulz, B. (2022). 
 > Probabilistic Solar Forecasting: Benchmarks, Post-processing, Verification.
 > TBD-TBD
 
-In particular, code for the implementation of the postprocessing methods, case study and evaluation is available.
+In particular, code for the implementation of the postprocessing methods, application to the case study and forecast evaluation is available.
 
 ## Summary
 
-Here, we provide code for the replication of the results in the above-mentioned paper. The setting and data was adopted from Yang et al. (2022), who theirselves provide data and code for the replication of their work. In the case study, probabilistic one day-ahead forecasts of Global Horizontal Irradiance (GHI) are issued for each hour of the following day at seven locations in the continental US. Five predictor variables are given, of which we highlight two. One is a deterministic GHI forecast from a numerical weather prediction model is (ECMWF HRES), the other is the REST2 clear-sky irradiance. For further information on the data and setting, we refer to Yang et al. (2022).
+The setting of the case study and the dataset were adopted from Yang et al. (2022), who themselves provide data and code for the replication of their work. In the case study, probabilistic one day-ahead forecasts of Global Horizontal Irradiance (GHI) are issued for each hour of the following day at seven locations in the continental US. Five predictor variables are available, of which we highlight two. One is a deterministic GHI forecast from a numerical weather prediction model (ECMWF HRES), the other is the REST2 clear-sky irradiance. For further information on the data and setting, we refer to Yang et al. (2022).
 
-We use four methods for postprocessing of solar radiation forecasts, namely the Analogue Ensemble (AnEn), Isotonic Distributional Regression (IDR), the Distributional Regression Network (DRN) and the Bernstein Quantile Network (BQN). While AnEn is replicated from Yang et al. (2022), the other three methods are based on the code of Schulz and Lerch (2022), who use these methods for probabilistic wind gust forecasting. For the evaluation of the methods, we again rely on code from Schulz and Lerch (2022) and for the generation of quantile reliability diagrams also on code from Gneiting et al. (2023).
+We use four methods for postprocessing of solar radiation forecasts, namely the Analogue Ensemble (AnEn), Isotonic Distributional Regression (IDR), the Distributional Regression Network (DRN) and the Bernstein Quantile Network (BQN). While AnEn is replicated from Yang et al. (2022), the other three methods are based on the code of Schulz and Lerch (2022), who adapt and apply these methods to probabilistic wind gust forecasting. For the evaluation of the probabilistic forecasts, we again build on code from Schulz and Lerch (2022) and for the generation of quantile reliability diagrams also on code from Gneiting et al. (2023).
 
 
 ## Code
 
-This repository includes three directories. 'code' includes the R-code that can be used for replication, 'data' the corresponding data and 'figures' the figures in the paper.
+This repository includes three directories. 'code' includes the R code to replicate our results, 'data' the corresponding data and 'figures' the figures in the paper.
 
 The following table lists the scripts provided in the 'code'-directory:
 
 | File | Description |
 | ---- | ----------- |  
-| `functions_basic` | Basic functions (based on code of Schulz and Lerch, 2022). |
-| `functions_data` | Functions for handling of data (based on code of Schulz and Lerch, 2022). |
-| `functions_pp` | Implementation of the postprocessing methods (based on code of Schulz and Lerch, 2022). |
-| `functions_eval` | Functions for evaluation of the forecasts (based on code of Schulz and Lerch, 2022). |
-| `functions_quantile_rd` | Functions for quantile reliability diagrams (based on code of Gneiting et al., 2023). |
+| `functions_basic` | Basic functions (based on code from Schulz and Lerch, 2022). |
+| `functions_data` | Functions for handling of data (based on code from Schulz and Lerch, 2022). |
+| `functions_pp` | Implementation of the postprocessing methods (based on code from Schulz and Lerch, 2022). |
+| `functions_eval` | Functions for evaluation of the forecasts (based on code from Schulz and Lerch, 2022). |
+| `functions_quantile_rd` | Functions for quantile reliability diagrams (based on code from Gneiting et al., 2023). |
 | ---- | ----------- | 
 | `data_preprocessing` | Preprocessing of the data analogous to Yang et al. (2022). |
 | ---- | ----------- | 
@@ -37,7 +37,7 @@ The following table lists the scripts provided in the 'code'-directory:
 | `pp_bqn` | Postprocessing via BQN. |
 | ---- | ----------- | 
 | `evaluation_scores` | Summary of the evaluation measures for the postprocessing methods. |
-| `evaluation_quantile_data` | Calculate data needed for quantile reliability diagrams (based on code of Gneiting et al., 2023). |
+| `evaluation_quantile_data` | Calculations required for quantile reliability diagrams (based on code from Gneiting et al., 2023). |
 | `figures_paper` | Generation of figures from the paper. |
 | ---- | ----------- |
 
@@ -46,21 +46,21 @@ The following table lists the scripts provided in the 'code'-directory:
 
 # DRN
 
-For DRN, we do not forecast GHI directly but instead the bias of the ECMWF HRES forecast (forecast minus observation), which we model with a normal distribution. The GHI forecast is then obtained by subtracting the location parameter of the forecast distribution from the ECMWF HRES forecast. However, this does not ensure a positive forecast. Therefore, the forecast distribution is truncated in zero. The loss function used is the CRPS, the configuration is described later.
+For DRN, we do not forecast GHI directly but instead use the bias of the ECMWF HRES forecast (forecast minus observation) as a target variable, which we model with a normal distribution. The GHI forecast is then obtained by subtracting the location parameter of the forecast distribution from the ECMWF HRES forecast. However, this does not ensure a positive forecast. Therefore, the forecast distribution is left-truncated at zero. The loss function used is the CRPS, the configuration is described below.
 
 We also provide an implementation of DRN that directly models GHI based on a truncated normal or logistic distribution.
 
 # BQN
 
-As for DRN, we do not forecast GHI directly but instead the bias of the ECMWF HRES forecast. Here, we then have to substract the quantile function from the ECMWF HRES forecast, which also includes a change of orientation of the quantile forecast. After wards, we censor the forecasts in zero to obtain non-negativity. The loss function used to estimate the network parameters is the mean pinball loss over 99 equidistant quantiles on the unit interval, i.e. at steps of 1% at the levels 1%,..., 99%.
+As for DRN, we do not forecast GHI directly but instead the bias of the ECMWF HRES forecast. Here, we then substract the quantile function from the ECMWF HRES forecast, which also includes a change of orientation of the quantile forecast. Afterwards, we left-censor the forecasts at zero to ensure non-negativity. The loss function used to estimate the network parameters is the mean pinball loss over 99 equidistant quantiles on the unit interval, i.e. at steps of 1% at the levels 1%,..., 99%.
 
-The PIT values of the BQN forecasts cannot be calculated directly, thus we rely on a generalization of PIT values, the uPIT (as in Schulz and Lerch, 2022). The evaluation of the BQN forecasts is based on a set of 99 equidistant quantiles for those measures that cannot be calculated exactly (CRPS, Brier score, CORP reliability diagrams).
+The PIT values of the BQN forecasts cannot be calculated directly, we thus rely on a generalization of PIT values, the uPIT (as in Schulz and Lerch, 2022). The evaluation of the BQN forecasts is based on a set of 99 equidistant quantiles for those measures that cannot be calculated exactly (CRPS, Brier score, CORP reliability diagrams).
 
 We also provide an implementation of BQN that directly models GHI.
 
 # IDR
 
-As AnEN, IDR is estimated separately for eachs station.
+Analogous to AnEN, IDR is applied separately to each station.
 
 As mentioned in the paper, we here compare two variants of IDR. CSD-IDR was used in the paper and is based on the clear-sky model REST2, while GHI-IDR is based on the ECMWF HRES forecast. 
 
