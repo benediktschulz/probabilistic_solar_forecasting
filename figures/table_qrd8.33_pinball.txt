@@ -1,0 +1,15 @@
+% latex table generated in R 3.6.1 by xtable 1.8-4 package
+% Mon Oct 17 09:51:23 2022
+\begin{table}[ht]
+\centering
+\begin{tabular}{lccccccc}
+  \toprule
+  Method & BON & DRA & FPK & GWN & PSU & SXF & TBL \\
+ \midrule
+CSD-IDR & 23.9 & 21.0 & 22.1 & 24.7 & 22.1 & 24.1 & 26.1 \\ 
+  AnEn & 19.9 & 15.2 & 18.2 & 20.5 & 18.4 & 20.7 & 22.8 \\ 
+  DRN & 19.3 & 12.8 & 17.4 & 19.7 & 17.4 & 21.2 & 21.2 \\ 
+  BQN & 16.8 & 12.7 & 15.6 & 17.4 & 15.7 & 17.3 & 19.5 \\ 
+   \bottomrule
+\end{tabular}
+\end{table}
