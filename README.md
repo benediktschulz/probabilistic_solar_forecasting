@@ -28,18 +28,14 @@ The following table lists the scripts provided in the 'code'-directory:
 | `functions_pp` | Implementation of the postprocessing methods (based on code from Schulz and Lerch, 2022). |
 | `functions_eval` | Functions for evaluation of the forecasts (based on code from Schulz and Lerch, 2022). |
 | `functions_quantile_rd` | Functions for quantile reliability diagrams (based on code from Gneiting et al., 2023). |
-| ---- | ----------- | 
 | `data_preprocessing` | Preprocessing of the data analogous to Yang et al. (2022). |
-| ---- | ----------- | 
 | `pp_AnEn` | Implementation of the AnEn-method taken from Yang et al. (2022). |
 | `pp_idr` | Postprocessing via IDR. |
 | `pp_drn` | Postprocessing via DRN. |
 | `pp_bqn` | Postprocessing via BQN. |
-| ---- | ----------- | 
 | `evaluation_scores` | Summary of the evaluation measures for the postprocessing methods. |
 | `evaluation_quantile_data` | Calculations required for quantile reliability diagrams (based on code from Gneiting et al., 2023). |
 | `figures_paper` | Generation of figures from the paper. |
-| ---- | ----------- |
 
 
 ## Comments on the implementation of the postprocessing methods
@@ -68,27 +64,26 @@ As mentioned in the paper, we here compare two variants of IDR. CSD-IDR was used
 | ---- | --- | --- | ---- | --- | --- | ---- | ---- |  
 | CSD-IDR | 82.9 | 37.9 | 62.4 | 85.6 | 84.6 | 74.8 | 74.2 | 
 | GHI-IDR | 58.4 | 32.8 | 50.6 | 62.7 | 62.7 | 57.8 | 61.2 | 
-| ---- | --- | --- | ---- | --- | --- | ---- | ---- |  
+
 | Brier Score (250 W/m^2) | BON | DRA | FPK | GWN | PSU | SXF | TBL |
 | ---- | --- | --- | ---- | --- | --- | ---- | ---- |  
 | CSD-IDR | 0.141 | 0.040 | 0.107 | 0.133 | 0.142 | 0.124 | 0.104 | 
 | GHI-IDR | 0.097 | 0.033 | 0.084 | 0.091 | 0.092 | 0.090 | 0.083 | 
-| ---- | --- | --- | ---- | --- | --- | ---- | ---- |  
+
 | PI Length | BON | DRA | FPK | GWN | PSU | SXF | TBL |
 | ---- | --- | --- | ---- | --- | --- | ---- | ---- |  
 | CSD-IDR | 387.8 | 233.0 | 324.6 | 414.0 | 401.6 | 386.6 | 398.4 | 
 | GHI-IDR | 290.7 | 184.1 | 264.9 | 308.2 | 301.2 | 295.8 | 330.6 | 
-| ---- | --- | --- | ---- | --- | --- | ---- | ---- |  
+
 | Pinball Loss (8.33%) | BON | DRA | FPK | GWN | PSU | SXF | TBL |
 | ---- | --- | --- | ---- | --- | --- | ---- | ---- |  
 | CSD-IDR | 23.9 | 21.0 | 22.1 | 24.7 | 22.1 | 24.1 | 26.1 | 
 | GHI-IDR | 18.7 | 15.0 | 16.8 | 19.8 | 17.1 | 19.9 | 21.3 | 
-| ---- | --- | --- | ---- | --- | --- | ---- | ---- |  
+
 | Pinball Loss (91.67%) | BON | DRA | FPK | GWN | PSU | SXF | TBL |
 | ---- | --- | --- | ---- | --- | --- | ---- | ---- |  
 | CSD-IDR | 13.5 | 6.1 | 10.0 | 13.9 | 15.6 | 11.8 | 11.9 | 
 | GHI-IDR | 17.7 | 10.6 | 15.8 | 19.7 | 21.4 | 17.1 | 16.1 | 
-| ---- | --- | --- | ---- | --- | --- | ---- | ---- |  
 
 ## Network hyperparameters
 
@@ -107,7 +102,7 @@ The following configurations have been used for the network methods. Both networ
 | Output nodes | 2 | 13 |
 | Output activation | (Linear, Sofplus) | (Linear, 12xSoftplus) |
 | Size of network ensemble | 10 | 10 |
-| ---- | --- | --- |  
+
 
 ## References
 
