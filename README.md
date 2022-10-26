@@ -101,7 +101,7 @@ The following configurations have been used for the network methods. Both networ
 
 | Hyperparmaeter | DRN | BQN |
 | --- | :---: | :---: |  
-| Learning rate | 5 x 10^-4 | 5 x 10^-4 |
+| Learning rate | $$5 \cdot 10^{-4}$$ | $$5 \cdot 10^{-4}$$ |
 | Epochs | 150 | 150 |
 | Patience | 10 | 10 |
 | Batch size | 32 | 32 |
