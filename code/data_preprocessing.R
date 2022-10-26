@@ -26,11 +26,9 @@ paper_path <- paste0(data_path, "original_data/")
 setwd(code_path)
 
 #### Initiation ####
-# Get list of files
-file_names <- list.files(paper_path)
-
-# Get locations
-loc_vec <- unique(substr(file_names, 1, 3))
+# Locations included in case study
+loc_vec <- c("bon", "dra", "fpk", "gwn", 
+             "psu", "sxf", "tbl")
 
 # Difference d to UTC (UTC + d = local)
 d_utc <- c("bon" = 6,
@@ -40,6 +38,14 @@ d_utc <- c("bon" = 6,
            "psu" = 5,
            "sxf" = 6,
            "tbl" = 7)
+
+# Check whether files are provided in repository
+for(temp_loc in loc_vec){
+  if(!is.element(paste0(temp_loc, "_fcst.RData"), list.files(paper_path))){
+    print(paste0("File ", temp_loc, "_fcst is missing!")) }
+  if(!is.element(paste0(temp_loc, "_obs.RData"), list.files(paper_path))){
+    print(paste0("File ", temp_loc, "_obs is missing!")) }
+}
 
 #### Data processing ####
 # List for total data
