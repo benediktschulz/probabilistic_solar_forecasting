@@ -17,9 +17,9 @@ We use four methods for postprocessing of solar radiation forecasts, namely the 
 
 ## Code
 
-This repository includes three directories. 'code' includes the R code to replicate our results, 'data' the corresponding data and 'figures' the figures in the paper.
+This repository includes three directories. `/code/` includes the R code to replicate our results, `/data/` the corresponding data and `/figures/` the figures in the paper.
 
-The following table lists the scripts provided in the 'code'-directory:
+The following table lists the scripts provided in the `/code/`-directory:
 
 | File | Description |
 | ---- | ----------- |  
@@ -39,7 +39,7 @@ The following table lists the scripts provided in the 'code'-directory:
 
 ## Instructions & computational requirements
 
-In order to replicate the results, one needs to download the 14 underlying data sets that are described in Appendix B of Yang et al. (2022) in the directory /data/original_data/. The supplemental material including these data sets is available at https://doi.org/10.1016/j.solener.2021.12.011. Following the acquisition of the data sets, one needs to run the data_preprocessing scripts to preprocess the data sets.
+In order to replicate the results, one needs to download the 14 underlying data sets that are described in Appendix B of Yang et al. (2022) in the directory `/data/original_data/`. The supplemental material including these data sets is available at https://doi.org/10.1016/j.solener.2021.12.011. Following the acquisition of the data sets, one needs to run the data_preprocessing scripts to preprocess the data sets.
 
 We ran the analysis in R (version 3.6.1) using the following packages:
 
