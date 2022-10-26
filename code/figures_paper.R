@@ -25,7 +25,7 @@ fig_path <- "/figures/"
 # Load functions
 setwd(code_path)
 source(file = paste0(code_path, "functions_pp.R"))
-source(file = paste0(code_path, "replicate_dw_reliability_functions.R"))
+source(file = paste0(code_path, "functions_quantile_rd.R"))
 
 #### Initiation ####
 # Prediction of bias with networks?

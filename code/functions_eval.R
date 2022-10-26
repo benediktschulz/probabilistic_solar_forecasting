@@ -11,7 +11,7 @@ fn_cover <- function(x, alpha = 0.1){
   ###Input
   #x.......PIT values (n vector)
   #alpha...Significance level (probability)
-  #........Default: 10% -> 90% prediction interval
+  #........Default: 0.1 -> 10% -> 90% prediction interval
   ###-----------------------------------------------------------------------------
   ###Output
   #res...Coverage in percentage
@@ -76,16 +76,16 @@ brier_score <- function(f, y, t = 0, distr = "ens", t_distr = 0){
 pinball_loss <- function(f, y, alpha = 0.95, distr = "ens", t_distr = 0){
   ###-----------------------------------------------------------------------------
   ###Input
-  #f.......distr == par. distr.: Matrix with location and scale of forecast distribution (n x n_par matrix)
-  #........distr == "ens": Ensemble forecasts (n x n_ens matrix)
-  #........distr == "q" (or elsewise): Quantile forecasts at level alpha (n vector)
-  #y.......Observations (n vector)
-  #t.......Quantile level (probability)
-  #........Default: 0.95 -> 95%
-  #distr...Forecast type (specific distribution or ensemble) (string)
-  #........Default: "ens" -> Ensemble
-  #alpha...Threshold for censored or truncated distribution (Scalar)
-  #........Default: 0
+  #f.........distr == par. distr.: Matrix with location and scale of forecast distribution (n x n_par matrix)
+  #..........distr == "ens": Ensemble forecasts (n x n_ens matrix)
+  #..........distr == "q" (or elsewise): Quantile forecasts at level alpha (n vector)
+  #y.........Observations (n vector)
+  #alpha.....Quantile level (probability)
+  #..........Default: 0.95 -> 95%
+  #distr.....Forecast type (specific distribution or ensemble) (string)
+  #..........Default: "ens" -> Ensemble
+  #t_distr...Threshold for censored or truncated distribution (Scalar)
+  #..........Default: 0
   ###-----------------------------------------------------------------------------
   ###Output
   #res...Quantile scores / pinball losses of n forecasts (n vector)
@@ -178,7 +178,7 @@ fn_scores_ens <- function(ens, y, alpha = 0.1, skip_evals = NULL, scores_ens = T
   ###Input
   #ens..........Ensemble data for prediction (n x n_ens matrix)
   #y............Observations for prediction (n vector)
-  #alpha........Level of prediction interval (probability)
+  #alpha........1 - Level of prediction interval (probability)
   #.............Default: 0.1 -> 90% prediction interval
   #skip_evals...Skip the given evaluation measures (string vector)
   #.............Default: NULL -> Calculate all
@@ -289,7 +289,7 @@ fn_scores_distr <- function(f, y, distr = "tlogis", alpha = 0.1,
   #y............Observations (n vector)
   #distr........Parametric distribution ("tlogis", "tnorm", "norm")
   #.............Default: (zero-)truncated logistic
-  #alpha........Level of prediction interval (probability)
+  #alpha........1 - Level of prediction interval (probability)
   #.............Default: 0.1 -> 90% prediction interval
   #skip_evals...Skip the following evaluation measures (string vector)
   #.............Default: NULL -> Calculate all
