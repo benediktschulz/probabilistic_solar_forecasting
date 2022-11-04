@@ -12,7 +12,7 @@ In particular, code for the implementation of the postprocessing methods, applic
 
 The setting of the case study and the dataset were adopted from Yang et al. (2022), who themselves provide data and code for the replication of their work. In the case study, probabilistic one day-ahead forecasts of Global Horizontal Irradiance (GHI) are issued for each hour of the following day at seven locations in the continental US. Five predictor variables are available, of which we highlight two. One is a deterministic GHI forecast from a numerical weather prediction model (ECMWF HRES), the other is the REST2 clear-sky irradiance. For further information on the data and setting, we refer to Yang et al. (2022). The data and code are provided the supplemental material of their work that is accessible via the DOI noted in the references.
 
-We use four methods for postprocessing of solar radiation forecasts, namely the Analogue Ensemble (AnEn), Isotonic Distributional Regression (IDR), the Distributional Regression Network (DRN) and the Bernstein Quantile Network (BQN). While AnEn is replicated from Yang et al. (2022), the other three methods are based on the code of Schulz and Lerch (2022), who adapt and apply these methods to probabilistic wind gust forecasting. For the evaluation of the probabilistic forecasts, we again build on code from Schulz and Lerch (2022) and for the generation of quantile reliability diagrams also on code from Gneiting et al. (2023).
+We use four methods for postprocessing of solar radiation forecasts, namely the Analogue Ensemble (AnEn), Isotonic Distributional Regression (IDR), the Distributional Regression Network (DRN) and the Bernstein Quantile Network (BQN). While AnEn is replicated from Yang et al. (2022), the other three methods are based on the code of Schulz and Lerch (2022), who adapt and apply these methods to probabilistic wind gust forecasting. For the evaluation of the probabilistic forecasts, we again build on code from Schulz and Lerch (2022) and for the generation of quantile reliability diagrams on code from Gneiting et al. (2023).
 
 
 ## Code
@@ -27,11 +27,11 @@ The following table lists the scripts provided in the `/code/`-directory:
 | `functions_pp` | Implementation of the postprocessing methods (based on code from Schulz and Lerch, 2022). |
 | `functions_eval` | Functions for evaluation of the forecasts (based on code from Schulz and Lerch, 2022). |
 | `functions_quantile_rd` | Functions for quantile reliability diagrams (based on code from Gneiting et al., 2023). |
-| `data_preprocessing` | Preprocessing of the data analogous to Yang et al. (2022). |
-| `pp_AnEn` | Implementation of the AnEn-method taken from Yang et al. (2022). |
-| `pp_idr` | Postprocessing via IDR. |
-| `pp_drn` | Postprocessing via DRN. |
-| `pp_bqn` | Postprocessing via BQN. |
+| `data_preprocessing` | Preprocessing of the data (analogous to Yang et al., 2022). |
+| `pp_AnEn` | Implementation of the AnEn-method (taken from Yang et al., 2022). |
+| `pp_idr` | Postprocessing via IDR (based on code from Schulz and Lerch, 2022). |
+| `pp_drn` | Postprocessing via DRN (based on code from Schulz and Lerch, 2022). |
+| `pp_bqn` | Postprocessing via BQN (based on code from Schulz and Lerch, 2022). |
 | `evaluation_scores` | Summary of the evaluation measures for the postprocessing methods. |
 | `evaluation_quantile_data` | Calculations required for quantile reliability diagrams (based on code from Gneiting et al., 2023). |
 | `figures_paper` | Generation of figures from the paper. |
@@ -39,7 +39,7 @@ The following table lists the scripts provided in the `/code/`-directory:
 
 ## Instructions & computational requirements
 
-In order to replicate the results, one needs to download the 14 underlying data sets that are described in Appendix B of Yang et al. (2022) in the directory `/data/original_data/`. The supplemental material including these data sets is available at https://doi.org/10.1016/j.solener.2021.12.011. Following the acquisition of the data sets, one needs to run the data_preprocessing scripts to preprocess the data sets.
+The original data provided in `/data/original_data/` is described in Appendix B of Yang et al. (2022) and also available at the supplemental material at https://doi.org/10.1016/j.solener.2021.12.011. The data sets `data_bon`,..., `data_tbl` as well as `data_total` in the `/data/` directory have been generated via the `data_preprocessing` script for preprocessing of the original data.
 
 We ran the analysis in R (version 3.6.1) using the following packages:
 
