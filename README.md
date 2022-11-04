@@ -1,6 +1,6 @@
 # Probabilistic Solar Forecasting
 
-This repository provides R code accompanying the paper
+This repository provides R code and data accompanying the paper
 
 > Gneiting, T., Lerch, S. and Schulz, B. (2022). 
 > Probabilistic Solar Forecasting: Benchmarks, Post-processing, Verification.
@@ -17,9 +17,9 @@ We use four methods for postprocessing of solar radiation forecasts, namely the 
 
 ## Data
 
-We are grateful to Dazhi Yang for generous advice on the handling of the benchmark data from Yang et al. (2022) as well as the permission to redistribute the data under the 'CC BY 4.0' license.
+We are grateful to Dazhi Yang for generous advice on the handling of the benchmark data from Yang et al. (2022) as well as the permission to redistribute the data.
 
-The original data provided in `/data/original_data/` is described in Appendix B of Yang et al. (2022) and also available at the supplemental material at https://doi.org/10.1016/j.solener.2021.12.011. The data sets `data_bon`,..., `data_tbl` as well as `data_total` in the `/data/` directory have been generated via the `data_preprocessing` script for preprocessing of the original data.
+The original data provided in `/data/original_data/` is described in Appendix B of Yang et al. (2022) and also available at the supplemental material at https://doi.org/10.1016/j.solener.2021.12.011 under a 'CC BY 4.0' license. The data sets `data_bon`,..., `data_tbl` as well as `data_total` in the `/data/` directory have been generated via the `data_preprocessing` script for preprocessing of the original data.
 
 
 ## Code
@@ -42,6 +42,11 @@ The following table lists the scripts provided in the `/code/`-directory:
 | `evaluation_scores` | Summary of the evaluation measures for the postprocessing methods. |
 | `evaluation_quantile_data` | Calculations required for quantile reliability diagrams (based on code from Gneiting et al., 2023). |
 | `figures_paper` | Generation of figures from the paper. |
+
+
+## Licenses
+
+The original data from Yang et al. (2022) and the additional data in the `/data/`-directory, as well as the figures in the `/figures/`-directory are distributed under a 'CC BY 4.0' license. The code in the `/code/`-directory is distributed under a 'MIT' license. Please refer to the 'LICENSE_data/figures/code' files in the respective folders for the corresponding license texts.
 
 
 ## Instructions & computational requirements
