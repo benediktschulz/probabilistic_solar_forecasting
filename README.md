@@ -15,6 +15,13 @@ The setting of the case study and the dataset were adopted from Yang et al. (202
 We use four methods for postprocessing of solar radiation forecasts, namely the Analogue Ensemble (AnEn), Isotonic Distributional Regression (IDR), the Distributional Regression Network (DRN) and the Bernstein Quantile Network (BQN). While AnEn is replicated from Yang et al. (2022), the other three methods are based on the code of Schulz and Lerch (2022), who adapt and apply these methods to probabilistic wind gust forecasting. For the evaluation of the probabilistic forecasts, we again build on code from Schulz and Lerch (2022) and for the generation of quantile reliability diagrams on code from Gneiting et al. (2023).
 
 
+## Data
+
+We are grateful to Dazhi Yang for generous advice on the handling of the benchmark data from Yang et al. (2022) as well as the permission to redistribute the data under the 'CC BY 4.0' license.
+
+The original data provided in `/data/original_data/` is described in Appendix B of Yang et al. (2022) and also available at the supplemental material at https://doi.org/10.1016/j.solener.2021.12.011. The data sets `data_bon`,..., `data_tbl` as well as `data_total` in the `/data/` directory have been generated via the `data_preprocessing` script for preprocessing of the original data.
+
+
 ## Code
 
 This repository includes three directories. `/code/` includes the R code to replicate our results, `/data/` the corresponding data and `/figures/` the figures in the paper.
@@ -38,8 +45,6 @@ The following table lists the scripts provided in the `/code/`-directory:
 
 
 ## Instructions & computational requirements
-
-The original data provided in `/data/original_data/` is described in Appendix B of Yang et al. (2022) and also available at the supplemental material at https://doi.org/10.1016/j.solener.2021.12.011. The data sets `data_bon`,..., `data_tbl` as well as `data_total` in the `/data/` directory have been generated via the `data_preprocessing` script for preprocessing of the original data.
 
 We ran the analysis in R (version 3.6.1) using the following packages:
 
