@@ -130,4 +130,3 @@ The following configurations have been used for the network methods. Both networ
 - Schulz, B., Lerch, S., 2022. Machine learning methods for postprocessing ensemble forecasts of wind gusts: A systematic comparison. Monthly Weather Review 150, 235–257. https://doi.org/10.1175/MWR-D-21-0150.1.
 - Yang, D., Wang, W., Hong, T., 2022. A historical weather forecast dataset from the European Centre for Medium-Range Weather Forecasts (ECMWF) for energy forecasting. Solar Energy 232, 263–274. https://doi.org/10.1016/j.solener.2021.12.011.
 
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
