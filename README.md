@@ -126,7 +126,7 @@ The following configurations have been used for the network methods. Both networ
 
 ## References
 
-- Gneiting, T., Wolffram, D., Resin, J., Kraus, K., Bracher, J., Dimitriadis, T., Hagenmeyer, V., Jordan, A.I., Lerch, S., Phipps, K., Schienle, M., 2023. Model diagnostics and forecast evaluation for quantiles. Annual Review of Statistics and Its Application 10, TBD–TBD. Replication material available at https://github.com/dwolffram/replication-ARSIA2023.
+- Gneiting, T., Wolffram, D., Resin, J., Kraus, K., Bracher, J., Dimitriadis, T., Hagenmeyer, V., Jordan, A.I., Lerch, S., Phipps, K., Schienle, M., 2023. Model diagnostics and forecast evaluation for quantiles. Annual Review of Statistics and Its Application 10, TBD–TBD. https://doi.org/10.1146/annurev-statistics-032921-020240. Replication material available at https://github.com/dwolffram/replication-ARSIA2023.
 - Schulz, B., Lerch, S., 2022. Machine learning methods for postprocessing ensemble forecasts of wind gusts: A systematic comparison. Monthly Weather Review 150, 235–257. https://doi.org/10.1175/MWR-D-21-0150.1.
 - Yang, D., Wang, W., Hong, T., 2022. A historical weather forecast dataset from the European Centre for Medium-Range Weather Forecasts (ECMWF) for energy forecasting. Solar Energy 232, 263–274. https://doi.org/10.1016/j.solener.2021.12.011.
 
