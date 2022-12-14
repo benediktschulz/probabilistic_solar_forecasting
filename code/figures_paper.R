@@ -247,24 +247,190 @@ pdf_plot <-
   theme_bw(base_size = 11) +
   theme(panel.grid.major = element_line(size = 0.05), 
         panel.grid.minor = element_blank(),
-        legend.position = c(0, 1),
-        legend.justification = c(0, 1),
-        legend.background = element_blank(),
-        legend.key = element_blank(),
-        axis.text.x = element_text(size = 10),
-        axis.text.y = element_text(size = 10),
-        axis.title.x = element_text(size = 13),
-        axis.title.y = element_text(size = 13),
-        strip.text.x = element_text(size = 12),
-        strip.text.y = element_text(size = 12))
+        legend.position = "none",
+        axis.text.x = element_text(size = 11.5),
+        axis.text.y = element_text(size = 11.5),
+        axis.title.x = element_text(size = 13.5),
+        axis.title.y = element_text(size = 13.5),
+        strip.text.x = element_text(size = 13.5),
+        strip.text.y = element_text(size = 13.5))
 
 # Save as PDF
 ggsave(filename = paste0("fc_illustration_", loc_plot, ".pdf"),
        path = fig_path,
        plot = pdf_plot,
-       width = 20,
-       height = 9,
-       scale = 0.6)
+       width = 15,
+       height = 7,
+       scale = 0.7)
+
+#### Forecast illustration IDR ####
+# Quantile levels
+q_vec <- (1:11)/12
+
+# Coordinates of inset
+x_zoom <- c(250, 500)
+y_zoom <- c(250, 500)
+
+# Placement of inset
+x_inset <- c(20, 520)
+y_inset <- c(592, 1092)
+
+# Number of quantile levels
+n_q <- length(q_vec)
+
+# Load data
+load(paste0(data_r_path, "data_", loc_plot, ".RData"))
+
+# Training period
+yr_tr <- 2017:2019
+
+# train-test split
+data_tr <- data %>%
+  filter(year(Time) %in% yr_tr)
+data_te <- data %>%
+  filter(year(Time) %in% 2020)
+rm(data)
+
+# Keep only observation and predictor
+data_tr <- data_tr[,c("ghi", "rest2")]
+
+# Load IDR package
+library(isodistrreg)
+
+# Estimate IDR fit (same configuration as in case study)
+est <- idr(y = data_tr[["ghi"]],
+           X = data_tr[,c("rest2")],
+           progress = FALSE,
+           pars = list(verbose = FALSE,
+                       eps_abs = 1e-3,
+                       eps_rel = 1e-3,
+                       max_iter = 1000L))
+
+# REST2 values
+csd_plot <- data.frame(rest2 = sort(unique(
+  c(seq(from = min(round(data_tr[["rest2"]])),
+        to = max(round(data_tr[["rest2"]])),
+        by = 1),
+    seq(from = x_zoom[1] - 1,
+        to = x_zoom[2] + 1,
+        by = 0.1)
+  ))))
+
+# Predict 
+pred <- predict(object = est,
+                data = csd_plot)
+
+# Columns of data frame
+col_vec <- c("qlevel", "x", "y")
+
+# Make data frame
+df_plot <- data.frame(matrix(nrow = length(q_vec)*nrow(csd_plot),
+                             ncol = length(col_vec)))
+colnames(df_plot) <- col_vec
+
+# Calculate quantiles
+q_pred <- qpred(predictions = pred,
+                quantiles = q_vec)
+
+# Read out quantiles in data frame
+df_plot[,"qlevel"] <- as.character(rep(x = round(q_vec, 4),
+                                       each = nrow(csd_plot)))
+df_plot[,"x"] <- rep(x = csd_plot[["rest2"]],
+                     times = length(q_vec))
+df_plot[,"y"] <- as.vector(q_pred)
+
+# Get colors from palette
+line_colours <- RColorBrewer::brewer.pal(name = "Blues",
+                                         n = 3 + ceiling(n_q/2))[3 + 1:ceiling(n_q/2)]
+
+# Correctly order colors from original palette
+band_colours <- line_colours[c(1:floor(n_q/2), floor(n_q/2):1)]
+line_colours <- line_colours[c(1:ceiling(n_q/2), floor(n_q/2):1)]
+
+# Start with point cloud
+pdf_plot0 <- ggplot(df_plot, aes(x = x, y = y)) +
+  geom_rect(data = df_plot[1,], aes(xmin = x_zoom[1], xmax = x_zoom[2], 
+                                    ymin = y_zoom[1], ymax = y_zoom[2]),
+            fill = "lightgrey", alpha = 0.8, 
+            color = NA, linetype = 1) +
+  geom_point(data = data_tr, aes(x = rest2, y = ghi), alpha = 0.4, size = 0.1)
+
+# Add interval colouring
+for(i in 1:(length(q_vec) - 1)){
+  # Transform quantile levels
+  temp_q <- as.character(round(q_vec[i + (0:1)], 4))
+  
+  # Subset of data
+  df_band <- subset(df_plot, is.element(qlevel, temp_q[1]))
+  
+  # Delete quantile level
+  df_band[["qlevel"]] <- NULL
+  
+  # Second column as lower bound (both are needed for ribbon!)
+  df_band[["lower"]] <- df_band[["y"]]
+  
+  # Upper bound from upper quantile
+  df_band[["upper"]] <- subset(df_plot, is.element(qlevel, temp_q[2]))[["y"]]
+  
+  # Plot ribbon
+  pdf_plot0 <- pdf_plot0 +
+    geom_ribbon(data = df_band, aes(ymin = lower, ymax = upper),
+                fill = band_colours[i], alpha = 0.3, color = NA)
+}
+
+# Continue plot
+pdf_plot0 <- pdf_plot0 + 
+  geom_line(data = df_plot, aes(x = x, y = y, color = qlevel), 
+            size = 0.7) +
+  scale_color_manual(values = line_colours) +
+  geom_rect(data = df_plot[1,], aes(xmin = x_zoom[1], xmax = x_zoom[2], 
+                                    ymin = y_zoom[1], ymax = y_zoom[2]),
+            fill = NA, color = "black", linetype = 1) +
+  coord_fixed(ratio = 1) +
+  xlab("Clear-Sky Irradiance") +
+  ylab(expression(paste("GHI [W/", m^2, "]"))) +
+  theme_bw(base_size = 11) +
+  scale_x_continuous(breaks = c(0, 250, 500, 750, 1000)) +
+  scale_y_continuous(breaks = c(0, 250, 500, 750, 1000)) +
+  theme(panel.grid.major = element_line(size = 0.05), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 14),
+        axis.title.x = element_text(size = 16),
+        axis.title.y = element_text(size = 16),
+        legend.position = "none")
+
+# Inset plot
+pdf_inset <- pdf_plot0 +
+  coord_cartesian(xlim = x_zoom,
+                  ylim = y_zoom,
+                  expand = FALSE) +
+  geom_abline(slope = 1, intercept = 0, 
+              col = "darkred") +
+  scale_x_continuous(breaks = c(250, 375, 500)) +
+  scale_y_continuous(breaks = c(250, 375, 500),
+                     position = "right") +
+  theme(plot.margin = margin(t = 0, r = 0, b = 0, l = 0),
+        axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 14),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+
+# Add inset plot to original plot
+pdf_plot <- pdf_plot0 + 
+  annotation_custom(ggplotGrob(pdf_inset), 
+                    xmin = x_inset[1], xmax = x_inset[2], 
+                    ymin = y_inset[1], ymax = y_inset[2])
+
+# Save as PDF
+ggsave(
+  filename = paste0("fc_illustration_idr_", loc_plot, ".pdf"),
+  path = pdf_path,
+  plot = pdf_plot,
+  scale = 0.7,
+  width = 10,
+  height = 10
+)
 
 #### Evaluation metric tables ####
 # Evaluation measures
@@ -485,12 +651,12 @@ pdf_plot <-
                      labels = c("0", "0.25", "0.5", "0.75", "1")) +
   scale_y_continuous(breaks = c(0, 0.5, 1, 1.5, 2),
                      labels = c("0", "0.5", "1", "1.5", "2")) +
-  theme(axis.text.x = element_text(size = 10),
-        axis.text.y = element_text(size = 10),
+  theme(axis.text.x = element_text(size = 11),
+        axis.text.y = element_text(size = 11),
         axis.title.x = element_text(size = 13),
         axis.title.y = element_text(size = 13),
-        strip.text.x = element_text(size = 12),
-        strip.text.y = element_text(size = 12)) + 
+        strip.text.x = element_text(size = 13),
+        strip.text.y = element_text(size = 13)) + 
   geom_hline(aes(yintercept = 1), 
              linetype = "dashed") +
   geom_hline(aes(yintercept = y_lim), 
@@ -503,7 +669,7 @@ file_name <- paste0("pit_histograms_", loc_plot, ".pdf")
 ggsave(filename = file_name,
        path = fig_path,
        plot = pdf_plot,
-       width = 20,
+       width = 14,
        height = 5,
        scale = 0.7)
 
@@ -627,7 +793,7 @@ fn_panel <- function(ls_rd, digits = 3){
   score_layer <- list(
     geom_label(
       mapping = aes(x = -Inf, y = Inf, label = label),
-      data = scores, size = 3.2, hjust = 0, vjust = 1, label.size = NA,
+      data = scores, size = 3.5, hjust = 0, vjust = 1, label.size = NA,
       alpha = 0, label.padding = unit(1, "lines"), parse = FALSE
     )
   )
@@ -654,12 +820,12 @@ fn_panel <- function(ls_rd, digits = 3){
     theme(
       panel.grid.major = element_line(size = 0.05),
       panel.grid.minor = element_line(size = 0.05),
-      axis.text.x = element_text(size = 10),
-      axis.text.y = element_text(size = 10),
-      axis.title.x = element_text(size = 12),
-      axis.title.y = element_text(size = 12),
-      strip.text.x = element_text(size = 12),
-      strip.text.y = element_text(size = 12),
+      axis.text.x = element_text(size = 11),
+      axis.text.y = element_text(size = 11),
+      axis.title.x = element_text(size = 13),
+      axis.title.y = element_text(size = 13),
+      strip.text.x = element_text(size = 13),
+      strip.text.y = element_text(size = 13),
     ) +
     score_layer
   

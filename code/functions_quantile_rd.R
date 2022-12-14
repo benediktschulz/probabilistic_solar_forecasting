@@ -1,6 +1,6 @@
 ## Functions for quantile reliability diagrams ##
 
-# !! This code is adapted fron that from the following repository !!
+# !! This code is adapted from the following repository !!
 # !! https://github.com/dwolffram/replication-ARSIA2023 !!
 
 # Load required package
@@ -158,12 +158,12 @@ plot_reldiag <- function(df_reldiag,
     score_layer <- list(
       geom_label( # Upper-left
         mapping = aes(x = x_layer, y = y_layer, label = label),
-        data = scores, size = 3.2, hjust = 0, vjust = 1, label.size = NA,
+        data = scores, size = 3.5, hjust = 0, vjust = 1, label.size = NA,
         alpha = 0, label.padding = unit(1, "lines"), parse = FALSE
       ),
       geom_label( # Lower-right
         mapping = aes(x = x_layer, y = y_layer, label = label),
-        data = scores, size = 3.2, hjust = 1, vjust = 0, label.size = NA,
+        data = scores, size = 3.5, hjust = 1, vjust = 0, label.size = NA,
         alpha = 0, label.padding = unit(1, "lines"), parse = FALSE
       )
     )
@@ -215,12 +215,12 @@ plot_reldiag <- function(df_reldiag,
     theme(
       panel.grid.major = element_line(size = 0.05),
       panel.grid.minor = element_line(size = 0.05),
-      axis.text.x = element_text(size = 10),
-      axis.text.y = element_text(size = 10),
-      axis.title.x = element_text(size = 12),
-      axis.title.y = element_text(size = 12),
-      strip.text.x = element_text(size = 12),
-      strip.text.y = element_text(size = 12),
+      axis.text.x = element_text(size = 11),
+      axis.text.y = element_text(size = 11),
+      axis.title.x = element_text(size = 13),
+      axis.title.y = element_text(size = 13),
+      strip.text.x = element_text(size = 13),
+      strip.text.y = element_text(size = 13),
     ) +
     score_layer
 }
