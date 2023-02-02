@@ -2,9 +2,9 @@
 
 This repository provides R code and data accompanying the paper
 
-> Gneiting, T., Lerch, S. and Schulz, B. (2022). 
+> Gneiting, T., Lerch, S. and Schulz, B. (2023). 
 > Probabilistic Solar Forecasting: Benchmarks, Post-processing, Verification.
-> TBD-TBD
+> Solar Energy, 252, 72-80, https://doi.org/10.1016/j.solener.2022.12.054.
 
 In particular, code for the implementation of the postprocessing methods, application to the case study and forecast evaluation is available.
 
